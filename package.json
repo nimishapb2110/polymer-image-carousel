@@ -1,6 +1,6 @@
 {
   "name": "@nimishapb2110/image-carousel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Slider carousel for images",
   "main": "imageCarousel.js",
   "module": "imageCarousel.js",
