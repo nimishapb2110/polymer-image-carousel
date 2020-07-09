@@ -1,0 +1,50 @@
+<html>
+
+<head>
+    <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="./imageCarousel.js"></script>
+</head>
+
+<body>
+    <image-carousel fontFamily="sans-serif"></image-carousel>
+</body>
+<script>
+    console.log('Type: ', typeof (images));
+    document.getElementsByTagName("image-carousel")[0].setAttribute("imageList", JSON.stringify([
+        {
+            "description": "111",
+            "email": "String",
+            "filePath": "https://s3.eu-west-3.amazonaws.com/aureole-paintings/ganesha-1532902634596.jpg",
+            "positionIndex": "1",
+            "title": "String",
+            "_id": "1"
+        },
+        {
+            "description": "222",
+            "email": "String",
+            "filePath": "https://s3.eu-west-3.amazonaws.com/aureole-paintings/krishna-1532902691703.jpg",
+            "positionIndex": "2",
+            "title": "String",
+            "_id": "2"
+        },
+        {
+            "description": "Traditional mural art of Ganesha.",
+            "email": "nimsappu@test.com",
+            "filePath": "https://s3.eu-west-3.amazonaws.com/aureole-paintings/buddha-1532902796112.jpg",
+            "positionIndex": 1,
+            "title": "Ganesha",
+            "_id": "3"
+        },
+        {
+            "description": "Traditional mural art of Ganesha.",
+            "email": "nimsappu@test.com",
+            "filePath": "https://s3.eu-west-3.amazonaws.com/aureole-paintings/aurora-1532903432341.jpg",
+            "positionIndex": 1,
+            "title": "Auroro",
+            "_id": "4"
+        }
+    ])
+    );
+</script>
+
+</html>

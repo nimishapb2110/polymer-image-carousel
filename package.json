@@ -1,0 +1,24 @@
+{
+  "name": "@nimishapb2110/image-carousel",
+  "version": "1.0.0",
+  "description": "Slider carousel for images",
+  "main": "imageCarousel.js",
+  "module": "imageCarousel.js",
+  "dependencies": {
+    "@polymer/iron-icons": "^3.0.1",
+    "@webcomponents/webcomponentsjs": "^2.4.3",
+    "image-carousel": "^1.0.0",
+    "lit-element": "^2.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Nimisha P B",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://https://github.com/nimishapb2110/polymer-image-carousel.git"
+  }
+}
