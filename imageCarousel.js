@@ -11,8 +11,7 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
     static get properties() {
         return {
             imageList: Array,
-            openModal: { type: Boolean },
-            fontFamily: String
+            openModal: { type: Boolean }
         };
     }
 
@@ -24,21 +23,18 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
     }
 
     firstUpdated(changedProperties) {
-        console.log('Font family: ', this.fontFamily);
-        console.log('My target: ', this.shadowRoot.querySelector(".imagecard"));
         Gestures.addListener(this.shadowRoot.querySelector(".imagecard"), 'track', this.handleTrack.bind(this));
+        // Let browser handle vertical scrolling and zoom
+        Gestures.setTouchAction(this.shadowRoot.querySelector(".imagecard"), 'pan-y pinch-zoom');
     }
 
     nextImage(n) {
-        console.log('THOS: ', n)
         this.showImage(this.slideIndex += n);
     }
 
     showImage(n) {
         let i;
         let x = this.shadowRoot.querySelectorAll('.image-holder');
-        console.log('TOTAL: ', x.length);
-        console.log('request for index: ', n);
         this.slideIndex = n;
         if (n > x.length) { this.slideIndex = 1 }
         if (n < 1) { this.slideIndex = x.length }
@@ -55,14 +51,12 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
         if (this.openModal) {
             this.currentIndex = index + 1;
             this.showImage(this.currentIndex);
-            console.log("index:", this.currentIndex);
         }
     }
 
     handleTrack(e) {
         switch (e.detail.state) {
             case 'track':
-                console.log('Tracking...');
                 if (e.detail.ddx > 20) {
                     console.log('Swiped right');
                     this.nextImage(-1);
@@ -76,7 +70,7 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
     }
 
     render() {
-        console.log('List: ', JSON.parse(this.imageList));
+        console.log('List inside lit element: ', JSON.parse(this.imageList));
         let parsedImageList = JSON.parse(this.imageList);
         return html`
          <style>
@@ -91,7 +85,6 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
                 transform: scale(1.01);
             }
             .image-holder { 
-                border: 1px solid black;
                 transition: all .5s ease;
             }
             .show-image {
@@ -100,6 +93,7 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
                 margin-bottom: 32px; 
                 visibility: visible;
                 opacity: 1;
+                border: 1px solid black;
             }
             .hide-image {
                 height: 0px;
@@ -107,6 +101,7 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
                 margin-bottom: 0px; 
                 visibility: hidden;
                 opacity: 0;
+                border: none;
             }
             .image-header {
                 display: flex;
@@ -160,9 +155,6 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
                 transform: rotate(135deg);
                 -webkit-transform: rotate(135deg);
             }
-            .inherited-font {
-                font-family: ${this.fontFamily};
-            }
         </style>
         <div class="${classMap({ opened: !this.openModal, closed: this.openModal })}">
             ${parsedImageList.map((item, index) => html`<img class="image-thumbnail" src="${item.filePath}" @click="${this.toggleModal.bind(this, index)}">`)}
@@ -170,7 +162,7 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
         <div class="${classMap({ imagecard: true, opened: this.openModal, closed: !this.openModal })}">
             ${parsedImageList.map(item => html`<div class='image-holder'>
                 <div class="image-header">
-                    <span class="inherited-font">${item.title}</span>
+                    <span>${item.title}</span>
                     <iron-icon class="icon-close pointer" icon="close" @click="${this.toggleModal.bind(this, 0)}"></iron-icon>
                 </div>
                 <div class="image-with-arrow">
