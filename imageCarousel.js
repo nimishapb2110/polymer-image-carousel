@@ -10,15 +10,15 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
 
     static get properties() {
         return {
-            imageList: Array,
-            openModal: { type: Boolean }
+            imageList: { type: Array },
+            __openModal: { type: Boolean }
         };
     }
 
     constructor() {
         super();
         this.slideIndex = 1;
-        this.openModal = false;
+        this.__openModal = false;
         this.currentIndex = 0;
     }
 
@@ -47,8 +47,8 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
     }
 
     toggleModal(index) {
-        this.openModal = !this.openModal;
-        if (this.openModal) {
+        this.__openModal = !this.__openModal;
+        if (this.__openModal) {
             this.currentIndex = index + 1;
             this.showImage(this.currentIndex);
         }
@@ -70,8 +70,7 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
     }
 
     render() {
-        console.log('List inside lit element: ', JSON.parse(this.imageList));
-        let parsedImageList = JSON.parse(this.imageList);
+        console.log('List inside lit element: ', this.imageList);
         return html`
          <style>
             .image-thumbnail {
@@ -85,12 +84,14 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
                 transform: scale(1.01);
             }
             .image-holder { 
-                transition: all .5s ease;
+                transition: all 1s ease;
+                background-color: black;
+                border-radius: 8px;
+                color: white;
             }
             .show-image {
                 height: auto;
                 padding: 0 8px;
-                margin-bottom: 32px; 
                 visibility: visible;
                 opacity: 1;
                 border: 1px solid black;
@@ -102,6 +103,7 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
                 visibility: hidden;
                 opacity: 0;
                 border: none;
+                position: absolute;
             }
             .image-header {
                 display: flex;
@@ -119,14 +121,10 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
             .opened {
                 display: flex;
                 flex-wrap: wrap;
-                visibility: visible;
-                opacity: 1;
-                transition: visibility 1s ease, opacity 1s ease;
+                margin: 8px;
             }
             .closed {
-                opacity:0;
-                visibility: hidden;
-                height: 0;
+                display: none;
             }
             .icon-close {
                 margin-left: auto;
@@ -156,19 +154,19 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
                 -webkit-transform: rotate(135deg);
             }
         </style>
-        <div class="${classMap({ opened: !this.openModal, closed: this.openModal })}">
-            ${parsedImageList.map((item, index) => html`<img class="image-thumbnail" src="${item.filePath}" @click="${this.toggleModal.bind(this, index)}">`)}
+        <div class=${classMap({ opened: !this.__openModal, closed: this.__openModal })}>
+            ${this.imageList.map((item, index) => html`<img class="image-thumbnail" src=${item.filePath} @click=${this.toggleModal.bind(this, index)}>`)}
         </div>
-        <div class="${classMap({ imagecard: true, opened: this.openModal, closed: !this.openModal })}">
-            ${parsedImageList.map(item => html`<div class='image-holder'>
+        <div class=${classMap({ imagecard: true, opened: this.__openModal, closed: !this.__openModal })}>
+            ${this.imageList.map(item => html`<div class='image-holder'>
                 <div class="image-header">
                     <span>${item.title}</span>
-                    <iron-icon class="icon-close pointer" icon="close" @click="${this.toggleModal.bind(this, 0)}"></iron-icon>
+                    <iron-icon class="icon-close pointer" icon="close" @click=${this.toggleModal.bind(this, 0)}></iron-icon>
                 </div>
                 <div class="image-with-arrow">
-                    <i class="pointer arrow left" @click="${() => this.nextImage(-1)}"></i>
-                    <img class="image-item" src="${item.filePath}">
-                    <i class="pointer arrow right" @click="${() => this.nextImage(1)}"></i>
+                    <i class="pointer arrow left" @click=${() => this.nextImage(-1)}></i>
+                    <img class="image-item" src=${item.filePath}>
+                    <i class="pointer arrow right" @click=${() => this.nextImage(1)}></i>
                 </div>
                 <p>${item.description}</p>
             </div>`)}
