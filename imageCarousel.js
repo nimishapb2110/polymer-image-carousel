@@ -75,6 +75,7 @@ export class imageCarousel extends GestureEventListeners(LitElement) {
          <style>
             .image-thumbnail {
                 height: 200px;
+                max-width: calc(50% - 4px);
                 flex-grow: 1;
                 margin: 2px;
                 cursor: pointer;
